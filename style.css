@@ -1,0 +1,250 @@
+:root {
+    --bg-color: #f3f3f3;
+    --card-bg: #ffffff;
+    --text-main: #202020;
+    --text-muted: #6b6b6b;
+    --accent-color: #0067c0;
+    /* Windows default blue */
+    --accent-hover: #005a9e;
+    --border-color: #e5e5e5;
+    --success-color: #107c10;
+    --error-color: #d13438;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #202020;
+        --card-bg: #2d2d2d;
+        --text-main: #ffffff;
+        --text-muted: #a0a0a0;
+        --border-color: #3b3b3b;
+        --accent-color: #4cc2ff;
+        --accent-hover: #479fda;
+    }
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    /* The native window top bar area */
+    padding-top: 48px;
+    user-select: none;
+}
+
+.app-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+}
+
+.card h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.help-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.help-text a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.help-text a:hover {
+    text-decoration: underline;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-size: 14px;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: var(--accent-color);
+}
+
+.btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn.primary {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn.primary:hover {
+    background-color: var(--accent-hover);
+}
+
+.btn.secondary {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.btn.secondary:hover {
+    background-color: var(--border-color);
+}
+
+.status-msg {
+    font-size: 13px;
+    margin-top: 10px;
+    display: none;
+}
+
+.status-msg.success {
+    display: block;
+    color: var(--success-color);
+}
+
+.status-msg.error {
+    display: block;
+    color: var(--error-color);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Results section */
+#results-container h3 {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.result-item {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flight-info h4 {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.flight-info p {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin-top: 6px;
+    text-transform: uppercase;
+}
+
+.empty-state {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-style: italic;
+    padding: 10px;
+}
+
+.tracked-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tracked-detail .airline {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.tracked-detail .route {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.tracked-detail .status-tag {
+    align-self: flex-start;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: var(--accent-color);
+    color: white;
+    text-transform: uppercase;
+}

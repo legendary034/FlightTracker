@@ -1,0 +1,119 @@
+/* Google-Style Timeline Additions */
+
+.flight-status-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 10px;
+    color: var(--text-main);
+}
+
+.flight-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.airport-code {
+    font-size: 32px;
+    font-weight: 400;
+}
+
+.timeline-container {
+    flex: 1;
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-top: 8px;
+    /* Room for the line */
+}
+
+.timeline-line {
+    flex: 1;
+    height: 2px;
+    background-color: var(--border-color);
+    position: relative;
+    border-radius: 2px;
+}
+
+.timeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: var(--success-color);
+    border-radius: 2px;
+    width: 0%;
+    /* Updated dynamically */
+}
+
+.timeline-plane {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--success-color);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* initial left is 0% - updated dynamically */
+    left: 0%;
+}
+
+.flight-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+.airport-info-block h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.info-metrics {
+    display: flex;
+    gap: 24px;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.metric-value {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.metric-value.time {
+    color: var(--success-color);
+}
+
+.terminal-gate {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.flight-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--border-color);
+    font-size: 12px;
+    color: var(--text-muted);
+}

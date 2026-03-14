@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlightTracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="timeline.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="header">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M21 16V14L13 9V3.5C13 2.67 12.33 2 11.5 2C10.67 2 10 2.67 10 3.5V9L2 14V16L10 13.5V19L8 20.5V22L11.5 21L15 22V20.5L13 19V13.5L21 16Z"
+            fill="var(--accent-color)" />
+        </svg>
+        <h1>FlightTracker</h1>
+      </div>
+      <p class="subtitle">Monitor your flights effortlessly.</p>
+    </div>
+
+    <!-- API Settings Section -->
+    <div class="card settings-card">
+      <h2>Aviationstack API Key</h2>
+      <p class="help-text">
+        Get a free API key (100 free requests/mo) by signing up at <a href="https://aviationstack.com/"
+          target="_blank">aviationstack.com</a>.
+      </p>
+      <div class="input-group">
+        <input type="password" id="api-key-input" placeholder="Enter your access key here">
+        <button id="save-key-btn" class="btn primary">Save Key</button>
+      </div>
+      <div id="key-status" class="status-msg"></div>
+    </div>
+
+    <!-- Flight Search Section -->
+    <div class="card search-card">
+      <h2>Track a Flight</h2>
+      <div class="input-group">
+        <input type="text" id="flight-num-input" placeholder="e.g. AA100, DL432" style="text-transform: uppercase;">
+        <button id="search-flight-btn" class="btn primary">Search Flights</button>
+      </div>
+      <div id="search-loading" class="hidden loading-spinner">Searching...</div>
+      <div id="search-error" class="status-msg error hidden"></div>
+    </div>
+
+    <!-- Search Results Section -->
+    <div id="results-container" class="hidden">
+      <h3>Select Your Flight</h3>
+      <div id="results-list" class="results-list">
+        <!-- Results will be injected here via JS -->
+      </div>
+    </div>
+
+    <!-- Currently Tracked Section -->
+    <div class="card currently-tracked-card">
+      <h2>Currently Tracking</h2>
+      <div id="tracked-flight-display" class="empty-state">
+        No flight currently being tracked.
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+
+</html>
