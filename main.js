@@ -58,6 +58,11 @@ function createWindow() {
 
     win.on('show', () => {
         win.webContents.send('window-shown');
+        win.webContents.send('mark-viewed');
+    });
+
+    win.on('focus', () => {
+        win.webContents.send('mark-viewed');
     });
 }
 
@@ -190,6 +195,17 @@ if (!gotTheLock) {
         setTimeout(checkFlightStatus, 5000);
 
         // Setup IPC Handlers for the renderer
+
+        ipcMain.on('update-app-icon', (event, dataUrl) => {
+            const img = nativeImage.createFromDataURL(dataUrl);
+            if (win) {
+                win.setIcon(img);
+            }
+            if (tray) {
+                tray.setImage(img);
+            }
+        });
+
         ipcMain.handle('get-store-val', (event, key) => {
             return store.get(key);
         });

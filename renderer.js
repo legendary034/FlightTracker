@@ -1,5 +1,58 @@
 const { ipcRenderer } = require('electron');
 
+// --- Icon Generation Logic ---
+let baseIconImg = new Image();
+baseIconImg.src = 'icon.png';
+
+async function updateTaskbarIcon(statusChanged) {
+    if (!baseIconImg.complete || baseIconImg.naturalWidth === 0) {
+        // Wait for image to load if not ready
+        await new Promise(resolve => {
+            baseIconImg.onload = resolve;
+            baseIconImg.onerror = resolve; // proceed anyway
+        });
+    }
+
+    const canvas = document.createElement('canvas');
+    const size = 64; // arbitrary size for the canvas to ensure good resolution
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    // Draw base icon
+    if (baseIconImg.complete && baseIconImg.naturalWidth > 0) {
+        ctx.drawImage(baseIconImg, 0, 0, size, size);
+    } else {
+        // Fallback if image fails to load
+        ctx.fillStyle = '#0a84ff';
+        ctx.fillRect(0, 0, size, size);
+    }
+
+    // Draw status circle
+    const circleRadius = size * 0.22;
+    const padding = size * 0.08;
+    const cx = size - circleRadius - padding;
+    const cy = circleRadius + padding;
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, circleRadius, 0, 2 * Math.PI);
+    
+    if (statusChanged) {
+        ctx.fillStyle = '#34C759'; // Green for new info
+    } else {
+        ctx.fillStyle = '#8E8E93'; // Grey for no new info / viewed
+    }
+    
+    ctx.fill();
+    // Add a stroke to make it pop against the icon
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.stroke();
+
+    const dataUrl = canvas.toDataURL('image/png');
+    ipcRenderer.send('update-app-icon', dataUrl);
+}
+
 const getTzOffsetMins = (tz) => {
     try {
         const d = new Date();
@@ -41,7 +94,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         const t = await ipcRenderer.invoke('get-store-val', 'trackedFlight');
         const l = await ipcRenderer.invoke('get-store-val', 'latestFlightData');
         updateTrackedDisplay(t, l);
+
+        const lastViewed = await ipcRenderer.invoke('get-store-val', 'lastViewedStatus');
+        const currentStatus = l ? l.flight_status : null;
+        if (currentStatus && currentStatus !== lastViewed) {
+            updateTaskbarIcon(true); // show green circle
+        } else {
+            updateTaskbarIcon(false); // show grey circle
+        }
     });
+
+    ipcRenderer.on('mark-viewed', async () => {
+        const l = await ipcRenderer.invoke('get-store-val', 'latestFlightData');
+        if (l && l.flight_status) {
+            ipcRenderer.send('set-store-val', 'lastViewedStatus', l.flight_status);
+        }
+        updateTaskbarIcon(false); // revert to grey circle
+    });
+
+    // Initial icon render
+    updateTaskbarIcon(false);
 
     // Save API Key
     saveKeyBtn.addEventListener('click', () => {
