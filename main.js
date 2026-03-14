@@ -48,12 +48,17 @@ function createWindow() {
 
     win.loadFile('index.html');
 
-    // Intercept the close event to minimize the window instead of quitting
+    // Intercept the close event to hide the window instead of quitting
     win.on('close', (event) => {
         if (!app.isQuitting) {
             event.preventDefault();
-            win.minimize();
+            win.hide();
         }
+    });
+
+    win.on('minimize', (event) => {
+        event.preventDefault();
+        win.hide();
     });
 
     win.on('show', () => {
@@ -71,7 +76,7 @@ function createTray() {
     tray = new Tray(icon);
 
     const contextMenu = Menu.buildFromTemplate([
-        { label: 'Update Flight', click: () => { win.show(); win.focus(); } },
+        { label: 'Update Flight', click: () => { if (win.isMinimized()) win.restore(); win.show(); win.focus(); } },
         { type: 'separator' },
         {
             label: 'Test Notification',
@@ -99,12 +104,19 @@ function createTray() {
             }
         },
         { type: 'separator' },
-        { label: 'Exit', click: () => { app.isQuitting = true; app.quit(); } }
+        { label: 'Exit', click: () => { 
+            app.isQuitting = true; 
+            if (tray) {
+                tray.destroy();
+            }
+            app.exit(0); 
+        } }
     ]);
 
     tray.setToolTip('FlightTracker');
     tray.setContextMenu(contextMenu);
     tray.on('click', () => {
+        if (win.isMinimized()) win.restore();
         win.show();
         win.focus();
     });
@@ -198,9 +210,6 @@ if (!gotTheLock) {
 
         ipcMain.on('update-app-icon', (event, dataUrl) => {
             const img = nativeImage.createFromDataURL(dataUrl);
-            if (win) {
-                win.setIcon(img);
-            }
             if (tray) {
                 tray.setImage(img);
             }
