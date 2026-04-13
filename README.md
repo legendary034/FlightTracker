@@ -20,3 +20,14 @@ To run from source:
 4. OR Run `npx electron-packager . FlightTracker --platform=win32 --arch=x64 --out=dist` to build your own executable.
 
 Note: Requires a free API Key from AviationStack.
+
+## Screenshots
+
+**1. Configuring the App Options (API Key)**
+![Updating API Key](docs/screenshots/options_update.png)
+![API Key Saved](docs/screenshots/api_key_saved.png)
+
+**2. Monitoring a New Flight Status**
+![Monitor Flight Menu](docs/screenshots/monitor_flight.png)
+![Flight Results Found](docs/screenshots/flight_results.png)
+![Actively Tracking Flight](docs/screenshots/tracking_flight.png)
